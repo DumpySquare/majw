@@ -18,8 +18,17 @@ spec:
     - name: recommendations
       service: recommendations
       port: 8001
+    - name: spa-dark
+      service: spa-dark
+      port: 80
   routes:
     - path: /
+      matches:
+      - conditions:
+        - cookies: "app_version"
+          value: "dark"
+        action:
+          spa-dark
       action:
         pass: spa
     - path: /api
@@ -42,3 +51,4 @@ spec:
         proxy:
           upstream: api
           rewritePath: /images
+          
